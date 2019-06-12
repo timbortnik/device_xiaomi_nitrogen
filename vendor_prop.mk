@@ -65,3 +65,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.audio.hw.binder.size_kbyte=1024
+
+#Improve scrolling performance a little
+PRODUCT_PROPERTY_OVERRIDES += \
+    vendor.perf.gestureflingboost.enable=true

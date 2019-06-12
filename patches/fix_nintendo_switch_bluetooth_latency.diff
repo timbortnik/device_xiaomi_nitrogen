@@ -1,0 +1,13 @@
+diff --git a/bta/include/bta_hh_api.h b/bta/include/bta_hh_api.h
+index 9198b4647..17d66b175 100644
+--- a/bta/include/bta_hh_api.h
++++ b/bta/include/bta_hh_api.h
+@@ -33,7 +33,7 @@
+ #endif
+ 
+ #ifndef BTA_HH_SSR_MAX_LATENCY_DEF
+-#define BTA_HH_SSR_MAX_LATENCY_DEF 800 /* 500 ms*/
++#define BTA_HH_SSR_MAX_LATENCY_DEF 24 /* 500 ms*/
+ #endif
+ 
+ #ifndef BTA_HH_SSR_MIN_TOUT_DEF
