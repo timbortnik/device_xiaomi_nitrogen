@@ -48,9 +48,10 @@ cd android_kernel_wireguard
 cd ..
 rm -rf android_kernel_wireguard
 
-# Wipe kernel module cache (required for msm-4.4 dirty rebuilds)
-rm -rf out/target/product/*/vendor/lib/modules 2>/dev/null
-rm -rf out/target/product/*/obj/PACKAGING/kernel_modules_intermediates 2>/dev/null
+# Wipe out the package cache
+rm -rf out/target/product/*/vendor 2>/dev/null
+rm -rf out/target/product/*/system 2>/dev/null
+rm -rf out/target/product/*/obj/PACKAGING 2>/dev/null
 
 # Remove old builds to conserve space
 rm -f out/target/product/*/*.zip*
