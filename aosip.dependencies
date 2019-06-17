@@ -10,8 +10,8 @@
     "branch": "lineage-16.0"
   },
   {
-    "repository": "proprietary_vendor_xiaomi",
-    "target_path": "vendor/xiaomi"
+    "repository": "vendor_xiaomi_nitrogen",
+    "target_path": "vendor/xiaomi/nitrogen"
   },
   {
     "repository": "vendor_MiuiCamera",
