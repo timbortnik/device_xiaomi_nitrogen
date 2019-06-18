@@ -20,7 +20,7 @@ fi
 cd ../../..
 
 # Pull in upstream source changes
-# repo sync -f --force-sync --no-tags --no-clone-bundle
+repo sync -f --force-sync --no-tags --no-clone-bundle
 
 # Fix the LTE signal bar fluctuations
 cd frameworks/base
