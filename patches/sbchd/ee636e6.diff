@@ -1,0 +1,36 @@
+From ee636e6513f3e006146e95fa5f3fbfe696550360 Mon Sep 17 00:00:00 2001
+From: ValdikSS <iam@valdikss.org.ru>
+Date: Mon, 10 Sep 2018 02:16:50 +0300
+Subject: [PATCH] Allow SBC as HD audio codec in Bluetooth device configuration
+
+Change-Id: I4d149e87e27e16d571f53d0521f12a8ab9d0fc94
+---
+
+diff --git a/packages/SettingsLib/src/com/android/settingslib/bluetooth/A2dpProfile.java b/packages/SettingsLib/src/com/android/settingslib/bluetooth/A2dpProfile.java
+index 24037a6..522c31a 100644
+--- a/packages/SettingsLib/src/com/android/settingslib/bluetooth/A2dpProfile.java
++++ b/packages/SettingsLib/src/com/android/settingslib/bluetooth/A2dpProfile.java
+@@ -269,7 +269,7 @@
+ 
+         final BluetoothCodecConfig codecConfig = (selectable == null || selectable.length < 1)
+                 ? null : selectable[0];
+-        final int codecType = (codecConfig == null || codecConfig.isMandatoryCodec())
++        final int codecType = (codecConfig == null)
+                 ? BluetoothCodecConfig.SOURCE_CODEC_TYPE_INVALID : codecConfig.getCodecType();
+ 
+         int index = -1;
+diff --git a/packages/SettingsLib/tests/robotests/src/com/android/settingslib/bluetooth/A2dpProfileTest.java b/packages/SettingsLib/tests/robotests/src/com/android/settingslib/bluetooth/A2dpProfileTest.java
+index 334ea16..c330d97 100644
+--- a/packages/SettingsLib/tests/robotests/src/com/android/settingslib/bluetooth/A2dpProfileTest.java
++++ b/packages/SettingsLib/tests/robotests/src/com/android/settingslib/bluetooth/A2dpProfileTest.java
+@@ -183,7 +183,9 @@
+         when(status.getCodecsSelectableCapabilities()).thenReturn(configs);
+ 
+         when(config.isMandatoryCodec()).thenReturn(true);
+-        assertThat(mProfile.getHighQualityAudioOptionLabel(mDevice)).isEqualTo(UNKNOWN_CODEC_LABEL);
++        when(config.getCodecName()).thenReturn("SBC");
++        assertThat(mProfile.getHighQualityAudioOptionLabel(mDevice)).isEqualTo(
++                String.format(KNOWN_CODEC_LABEL, config.getCodecName()));
+     }
+ 
+     @Test

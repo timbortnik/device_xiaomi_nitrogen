@@ -1,0 +1,45 @@
+From cc727902eed5490defa40a2a8340a65e81784852 Mon Sep 17 00:00:00 2001
+From: ValdikSS <iam@valdikss.org.ru>
+Date: Mon, 10 Sep 2018 02:02:50 +0300
+Subject: [PATCH] SBC Dual Channel (SBC HD Audio) support
+
+"HD Audio" checkbox is not checked for SBC by default.
+
+Change-Id: Id45c48aeaa2eb86f3dffa0cc825d1e09f1c00187
+---
+
+diff --git a/src/com/android/bluetooth/a2dp/A2dpCodecConfig.java b/src/com/android/bluetooth/a2dp/A2dpCodecConfig.java
+index 4de89df..3739346 100644
+--- a/src/com/android/bluetooth/a2dp/A2dpCodecConfig.java
++++ b/src/com/android/bluetooth/a2dp/A2dpCodecConfig.java
+@@ -69,6 +69,14 @@
+             BluetoothCodecConfig codecConfig = codecConfigArray[i];
+             if (!codecConfig.isMandatoryCodec()) {
+                 codecConfigArray[i] = null;
++            } else {
++                // Rebuild SBC selectable codec with Dual Channel (SBC HD audio)
++                codecConfigArray[i] = new BluetoothCodecConfig(
++                  BluetoothCodecConfig.SOURCE_CODEC_TYPE_SBC, mA2dpSourceCodecPrioritySbc,
++                  BluetoothCodecConfig.SAMPLE_RATE_NONE,
++                  BluetoothCodecConfig.BITS_PER_SAMPLE_NONE,
++                  BluetoothCodecConfig.CHANNEL_MODE_DUAL_CHANNEL, 0 /* codecSpecific1 */,
++                  0 /* codecSpecific2 */, 0 /* codecSpecific3 */, 0 /* codecSpecific4 */);
+             }
+         }
+ 
+diff --git a/src/com/android/bluetooth/a2dp/A2dpService.java b/src/com/android/bluetooth/a2dp/A2dpService.java
+index 0548cdd..d35b206 100644
+--- a/src/com/android/bluetooth/a2dp/A2dpService.java
++++ b/src/com/android/bluetooth/a2dp/A2dpService.java
+@@ -933,7 +933,10 @@
+             BluetoothCodecStatus codecStatus = sm.getCodecStatus();
+             if (codecStatus != null) {
+                 for (BluetoothCodecConfig config : codecStatus.getCodecsSelectableCapabilities()) {
+-                    if (!config.isMandatoryCodec()) {
++                    boolean isMandatoryCodecWithDualChannel = (config.isMandatoryCodec()
++                            && (config.getChannelMode() & config.CHANNEL_MODE_DUAL_CHANNEL)
++                                   == config.CHANNEL_MODE_DUAL_CHANNEL);
++                    if (!config.isMandatoryCodec() || isMandatoryCodecWithDualChannel) {
+                         supportsOptional = true;
+                         break;
+                     }
