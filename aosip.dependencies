@@ -2,7 +2,7 @@
   {
     "repository": "rr-mario/msm-4.4",
     "target_path": "kernel/xiaomi/nitrogen",
-    "branch": "pie"
+    "branch": "stable"
   },
   {
     "repository": "LineageOS/android_packages_resources_devicesettings",
