@@ -2,6 +2,8 @@
 
 # Remove all previously applied patches
 cd frameworks/base
+git reset --hard
+git clean -f -d
 git checkout .
 cd ../..
 cd system/bt
