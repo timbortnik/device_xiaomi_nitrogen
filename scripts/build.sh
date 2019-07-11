@@ -2,18 +2,13 @@
 
 # Remove all previously applied patches
 cd frameworks/base
-git checkout .
 git reset --hard
+git clean -f -d
+git checkout .
 cd ../..
 cd system/bt
 git checkout .
 cd ../..
-cd packages/apps/Settings
-git checkout .
-cd ../../..
-cd packages/apps/Bluetooth
-git checkout .
-cd ../../..
 cd vendor/aosip
 git checkout .
 cd ../..
@@ -28,33 +23,23 @@ cd ../../..
 
 # Pull in upstream source changes
 repo sync -f --force-sync --no-tags --no-clone-bundle
+cd packages/resources/devicesettings
+git pull
+cd ../../..
+cd packages/apps/Eleven
+git pull
+cd ../../..
 
 # Patch frameworks_base
 cd frameworks/base
 git apply ../../device/xiaomi/nitrogen/patches/use_only_rsrp_for_lte_signal_bar.diff
 git apply ../../device/xiaomi/nitrogen/patches/add_missing_frameworks_base_touch_optimization.diff
-git apply ../../device/xiaomi/nitrogen/patches/sbchd/99dc2c9.diff
-git apply ../../device/xiaomi/nitrogen/patches/sbchd/a879426.diff
-git apply ../../device/xiaomi/nitrogen/patches/sbchd/ee636e6.diff
 cd ../..
 
 # Patch system_bt
 cd system/bt
 git apply ../../device/xiaomi/nitrogen/patches/fix_nintendo_switch_bluetooth_latency.diff
-git apply ../../device/xiaomi/nitrogen/patches/sbchd/1456480.diff
-git apply ../../device/xiaomi/nitrogen/patches/sbchd/d48026c.diff
 cd ../..
-
-# Patch packages_apps_Settings
-cd packages/apps/Settings
-git apply ../../../device/xiaomi/nitrogen/patches/sbchd/5d15d4e.diff
-cd ../../..
-
-# Patch packages_apps_Bluetooth
-cd packages/apps/Bluetooth
-git apply ../../../device/xiaomi/nitrogen/patches/sbchd/cc72790.diff
-git apply ../../../device/xiaomi/nitrogen/patches/sbchd/ecdbaf8.diff
-cd ../../..
 
 # Fix COMPAT_VDSO kernel compilation (as the fix hasn't landed upstream yet)
 cd vendor/aosip
