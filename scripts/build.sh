@@ -23,6 +23,9 @@ cd ../../..
 
 # Pull in upstream source changes
 repo sync -f --force-sync --no-tags --no-clone-bundle
+cd kernel/xiaomi/nitrogen
+git pull
+cd ../../..
 
 # Patch frameworks_base
 cd frameworks/base
