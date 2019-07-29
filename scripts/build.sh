@@ -26,9 +26,6 @@ repo sync -f --force-sync --no-tags --no-clone-bundle
 cd packages/resources/devicesettings
 git pull
 cd ../../..
-cd packages/apps/Eleven
-git pull
-cd ../../..
 
 # Patch frameworks_base
 cd frameworks/base
