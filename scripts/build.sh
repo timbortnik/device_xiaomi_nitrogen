@@ -26,6 +26,9 @@ repo sync -f --force-sync --no-tags --no-clone-bundle
 cd packages/resources/devicesettings
 git pull
 cd ../../..
+cd kernel/xiaomi/nitrogen
+git pull
+cd ../../..
 
 # Patch frameworks_base
 cd frameworks/base
