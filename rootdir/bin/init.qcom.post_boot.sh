@@ -223,6 +223,9 @@ function 8937_sched_dcvs_hmp()
 target=`getprop ro.board.platform`
 
 function configure_read_ahead_kb_values() {
+    # Ensure that fsync is enabled after boot
+    echo 1 > /sys/module/sync/parameters/fsync_enabled
+
     MemTotalStr=`cat /proc/meminfo | grep MemTotal`
     MemTotal=${MemTotalStr:16:8}
 
