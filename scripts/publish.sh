@@ -14,8 +14,8 @@ cd "$SCRIPTPATH"
 
 # Determine the repository URL, owner, name and branch
 URL=`git config --get remote.origin.url`
-OWNER=`echo $URL | cut "-d/" -f4`
-REPOSITORY=`echo $URL | cut "-d/" -f5 | cut "-d." -f1`
+OWNER=`echo $URL | rev | cut "-d." -f2 | cut "-d:" -f1 | cut "-d/" -f2 | rev`
+REPOSITORY=`echo $URL | rev | cut "-d." -f2 | cut "-d:" -f1 | cut "-d/" -f1 | rev`
 BRANCH=`git branch | grep "*" | cut "-d " -f2`
 
 # Navigate to the build system root
