@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# Get the current script location
+SCRIPT=$(readlink -f "$0")
+
+# Get the scripts folder location
+SCRIPTPATH=$(dirname "$SCRIPT")
+
+# Navigate to the scripts folder
+cd "$SCRIPTPATH"
+
+# Navigate to the build system root
+cd "../../../.."
+
 # Remove all previously applied patches
 cd frameworks/base
 git reset --hard
