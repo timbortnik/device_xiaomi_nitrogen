@@ -20,6 +20,6 @@
           {device} - Device name
           {type} - Build type
     -->
-    <string name="updater_server_url" translatable="false">https://www.black-seraph.com/ota/aosip-9.0/{device}/{type}</string>
-    <string name="menu_changelog_url" translatable="false">https://www.black-seraph.com/ota/aosip-9.0/<xliff:g id="device_name">%1$s</xliff:g>/changelog.txt</string>
+    <string name="updater_server_url" translatable="false">https://raw.githubusercontent.com/Black-Seraph/device_xiaomi_{device}/pie-aosip/updatelist.json</string>
+    <string name="menu_changelog_url" translatable="false">https://github.com/Black-Seraph/device_xiaomi_<xliff:g id="device_name">%1$s</xliff:g>/commits/pie-aosip</string>
 </resources>
