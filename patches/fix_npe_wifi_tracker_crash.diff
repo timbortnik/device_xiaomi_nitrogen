@@ -44,17 +44,16 @@ index d8f0886730d..5447922c286 100644
  
      /**
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/policy/HotspotControllerImpl.java b/packages/SystemUI/src/com/android/systemui/statusbar/policy/HotspotControllerImpl.java
-index c44b385f505..7fe98568f55 100644
+index c44b385f505..b024bf66499 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/policy/HotspotControllerImpl.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/policy/HotspotControllerImpl.java
-@@ -109,6 +109,10 @@ public class HotspotControllerImpl implements HotspotController, WifiManager.Sof
+@@ -109,6 +109,9 @@ public class HotspotControllerImpl implements HotspotController, WifiManager.Sof
       * @param shouldListen whether we should start listening to various wifi statuses
       */
      private void updateWifiStateListeners(boolean shouldListen) {
 +        if (mWifiManager == null) {
 +            return;
 +        }
-+        mWifiStateReceiver.setListening(shouldListen);
          if (shouldListen) {
              mWifiManager.registerSoftApCallback(
                      this,
