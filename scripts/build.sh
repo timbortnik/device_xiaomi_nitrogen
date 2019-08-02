@@ -13,11 +13,6 @@ cd "$SCRIPTPATH"
 cd "../../../.."
 
 # Remove all previously applied patches
-cd frameworks/base
-git reset --hard
-git clean -f -d
-git checkout .
-cd ../..
 cd system/bt
 git checkout .
 cd ../..
@@ -38,11 +33,6 @@ repo sync -f --force-sync --no-tags --no-clone-bundle
 cd kernel/xiaomi/nitrogen
 git pull
 cd ../../..
-
-# Patch frameworks_base
-cd frameworks/base
-git apply ../../device/xiaomi/nitrogen/patches/use_only_rsrp_for_lte_signal_bar.diff
-cd ../..
 
 # Fix Nintendo Switch Bluetooth latency
 cd system/bt
