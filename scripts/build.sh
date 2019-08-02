@@ -19,6 +19,9 @@ cd ../..
 cd vendor/lineage
 git checkout .
 cd ../..
+cd packages/apps/crDroidSettings
+git checkout .
+cd ../../..
 cd kernel/xiaomi/nitrogen
 RESETNEEDED=`git log -1 | grep wireguard | wc -l`
 if [ "$RESETNEEDED" != "0" ]
@@ -32,6 +35,11 @@ cd ../../..
 repo sync -f --force-sync --no-tags --no-clone-bundle
 cd kernel/xiaomi/nitrogen
 git pull
+cd ../../..
+
+# Re-route the crDroid OTA server
+cd packages/apps/crDroidSettings
+git apply ../../../device/xiaomi/nitrogen/patches/reroute_crdroid_ota_server.diff
 cd ../../..
 
 # Fix Nintendo Switch Bluetooth latency
