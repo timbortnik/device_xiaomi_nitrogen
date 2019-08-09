@@ -46,7 +46,6 @@ cd ../../..
 cd frameworks/base
 git apply ../../device/xiaomi/nitrogen/patches/use_only_rsrp_for_lte_signal_bar.diff
 git apply ../../device/xiaomi/nitrogen/patches/add_missing_frameworks_base_touch_optimization.diff
-git apply ../../device/xiaomi/nitrogen/patches/fix_npe_wifi_tracker_crash.diff
 cd ../..
 
 # Patch system_bt
