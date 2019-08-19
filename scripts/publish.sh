@@ -48,34 +48,41 @@ TITLE="$BUILD_READABLE_DATE $BRANCH Build"
 BODY="# Changelog\n* Pulled in upstream changes"
 
 # Create a github release for this build
-"$SCRIPTPATH/create-github-release.sh" "$GITHUB_TOKEN" "$OWNER" "$REPOSITORY" "$BRANCH" "$TAG" "$TITLE" "$BODY"
+RESULT=`"$SCRIPTPATH/create-github-release.sh" "$GITHUB_TOKEN" "$OWNER" "$REPOSITORY" "$BRANCH" "$TAG" "$TITLE" "$BODY" | grep already_exists | wc -l`
 
-# Attach the build asset to the release
-"$SCRIPTPATH/upload-github-release-asset.sh" "$GITHUB_TOKEN" "$OWNER" "$REPOSITORY" "$TAG" "$BUILD_NAME"
+# We aren't double-tapping
+if [ "$RESULT" == "0" ]
+then
+	# Attach the build asset to the release
+	"$SCRIPTPATH/upload-github-release-asset.sh" "$GITHUB_TOKEN" "$OWNER" "$REPOSITORY" "$TAG" "$BUILD_NAME"
 
-# Generate the asset direct link
-BUILD_URL="https://github.com/$OWNER/$REPOSITORY/releases/download/$TAG/$BUILD_NAME"
+	# Generate the asset direct link
+	BUILD_URL="https://github.com/$OWNER/$REPOSITORY/releases/download/$TAG/$BUILD_NAME"
 
-# Return to the scripts directory
-cd "$SCRIPTPATH"
+	# Return to the scripts directory
+	cd "$SCRIPTPATH"
 
-# Navigate into the device tree directory
-cd ..
+	# Navigate into the device tree directory
+	cd ..
 
-# Update the OTA updatelist file
-echo -n '{"response":[{"datetime":' > updatelist.json
-echo -n "$BUILD_TIMESTAMP" >> updatelist.json
-echo -n ',"filename":"' >> updatelist.json
-echo -n "$BUILD_NAME" >> updatelist.json
-echo -n '","id":"' >> updatelist.json
-echo -n "$BUILD_ID" >> updatelist.json
-echo -n '","romtype":"unofficial","size":' >> updatelist.json
-echo -n "$BUILD_SIZE" >> updatelist.json
-echo -n ',"url":"' >> updatelist.json
-echo -n "$BUILD_URL" >> updatelist.json
-echo -n '","version":"16.0"}]}' >> updatelist.json
+	# Update the OTA updatelist file
+	echo -n '{"response":[{"datetime":' > updatelist.json
+	echo -n "$BUILD_TIMESTAMP" >> updatelist.json
+	echo -n ',"filename":"' >> updatelist.json
+	echo -n "$BUILD_NAME" >> updatelist.json
+	echo -n '","id":"' >> updatelist.json
+	echo -n "$BUILD_ID" >> updatelist.json
+	echo -n '","romtype":"unofficial","size":' >> updatelist.json
+	echo -n "$BUILD_SIZE" >> updatelist.json
+	echo -n ',"url":"' >> updatelist.json
+	echo -n "$BUILD_URL" >> updatelist.json
+	echo -n '","version":"16.0"}]}' >> updatelist.json
 
-# Add, commit & push the updated updatelist file
-git add updatelist.json
-git commit -m "nitrogen: OTA auto-update"
-git push
+	# Add, commit & push the updated updatelist file
+	#git add updatelist.json
+	#git commit -m "nitrogen: OTA auto-update"
+	#git push
+else
+	# Just a little reminder so we aren't left puzzled
+	echo "There have been no upstream changes since the last published build!"
+fi
