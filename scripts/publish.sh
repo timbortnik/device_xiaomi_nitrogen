@@ -79,9 +79,9 @@ then
 	echo -n '","version":"16.0"}]}' >> updatelist.json
 
 	# Add, commit & push the updated updatelist file
-	#git add updatelist.json
-	#git commit -m "nitrogen: OTA auto-update"
-	#git push
+	git add updatelist.json
+	git commit -m "nitrogen: OTA auto-update"
+	git push
 else
 	# Just a little reminder so we aren't left puzzled
 	echo "There have been no upstream changes since the last published build!"
