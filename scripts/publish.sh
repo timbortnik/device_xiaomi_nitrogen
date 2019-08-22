@@ -33,6 +33,9 @@ BUILD_SIZE=`stat --printf="%s" "$BUILD_NAME"`
 # Determine the build's time stamp
 BUILD_TIMESTAMP=`cat system/build.prop | grep ro.build.date.utc | cut "-d=" -f2`
 
+# Grab the crDroid mod version
+MOD_VERSION=`cat system/build.prop | grep ro.modversion | cut "-d=" -f2`
+
 # Generate a build ID
 BUILD_ID=`hexdump -n 32 -e '8/4 "%08X" 1 "\n"' /dev/random`
 
@@ -46,6 +49,10 @@ BUILD_SHORT_READABLE_DATE=`LANG=en_us_88591 date -d "@$BUILD_TIMESTAMP" "+%Y%m%d
 TAG="$BUILD_SHORT_READABLE_DATE-$BRANCH"
 TITLE="$BUILD_READABLE_DATE $BRANCH Build"
 BODY="# Changelog\n* Pulled in upstream changes"
+
+# crDroid needs a regex compatible filename for OTA to work properly
+mv "$BUILD_NAME" "crDroidAndroid-9.0-$BUILD_SHORT_READABLE_DATE-nitrogen-v$MOD_VERSION.zip"
+BUILD_NAME=`ls *.zip | grep -v md5`
 
 # Create a github release for this build
 "$SCRIPTPATH/create-github-release.sh" "$GITHUB_TOKEN" "$OWNER" "$REPOSITORY" "$BRANCH" "$TAG" "$TITLE" "$BODY"
@@ -63,19 +70,30 @@ cd "$SCRIPTPATH"
 cd ..
 
 # Update the OTA updatelist file
-echo -n '{"response":[{"datetime":' > updatelist.json
-echo -n "$BUILD_TIMESTAMP" >> updatelist.json
-echo -n ',"filename":"' >> updatelist.json
-echo -n "$BUILD_NAME" >> updatelist.json
-echo -n '","id":"' >> updatelist.json
-echo -n "$BUILD_ID" >> updatelist.json
-echo -n '","romtype":"unofficial","size":' >> updatelist.json
-echo -n "$BUILD_SIZE" >> updatelist.json
-echo -n ',"url":"' >> updatelist.json
-echo -n "$BUILD_URL" >> updatelist.json
-echo -n '","version":"16.0"}]}' >> updatelist.json
+echo '<?xml version="1.0" encoding="UTF-8"?>' > updatelist.xml
+echo '<OTA xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ota.xsd">' >> updatelist.xml
+echo '    <manufacturer id="Xiaomi">' >> updatelist.xml
+echo '        <nitrogen>' >> updatelist.xml
+echo -n '            <maintainer>' >> updatelist.xml
+echo -n "$OWNER" >> updatelist.xml
+echo '</maintainer>' >> updatelist.xml
+echo '            <devicename>Mi Max 3</devicename>' >> updatelist.xml
+echo -n '            <filename>' >> updatelist.xml
+echo -n "${BUILD_NAME%.*}" >> updatelist.xml
+echo '</filename>' >> updatelist.xml
+echo '            <buildtype>Weekly</buildtype>' >> updatelist.xml
+echo -n '            <download>' >> updatelist.xml
+echo -n "$BUILD_URL" >> updatelist.xml
+echo '</download>' >> updatelist.xml
+echo '            <changelog>https://github.com/Black-Seraph/device_xiaomi_nitrogen/commits/pie-crdroid</changelog>' >> updatelist.xml
+echo '            <gapps>https://opengapps.org</gapps>' >> updatelist.xml
+echo '            <forum>https://patreon.com/blackseraph</forum>' >> updatelist.xml
+echo '            <paypal>https://ko-fi.com/blackseraph</paypal>' >> updatelist.xml
+echo '        </nitrogen>' >> updatelist.xml
+echo '    </manufacturer>' >> updatelist.xml
+echo '</OTA>' >> updatelist.xml
 
 # Add, commit & push the updated updatelist file
-git add updatelist.json
+git add updatelist.xml
 git commit -m "nitrogen: OTA auto-update"
 git push
