@@ -21,7 +21,7 @@ cd ../..
 cd system/bt
 git checkout .
 cd ../..
-cd vendor/lineage
+cd vendor/aosip
 git checkout .
 cd ../..
 cd kernel/xiaomi/nitrogen
@@ -35,6 +35,9 @@ cd ../../..
 
 # Pull in upstream source changes
 repo sync -f --force-sync --no-tags --no-clone-bundle
+cd packages/resources/devicesettings
+git pull
+cd ../../..
 cd kernel/xiaomi/nitrogen
 git pull
 cd ../../..
@@ -44,13 +47,13 @@ cd frameworks/base
 git apply ../../device/xiaomi/nitrogen/patches/use_only_rsrp_for_lte_signal_bar.diff
 cd ../..
 
-# Fix Nintendo Switch Bluetooth latency
+# Patch system_bt
 cd system/bt
 git apply ../../device/xiaomi/nitrogen/patches/fix_nintendo_switch_bluetooth_latency.diff
 cd ../..
 
 # Fix COMPAT_VDSO kernel compilation (as the fix hasn't landed upstream yet)
-cd vendor/lineage
+cd vendor/aosip
 PATCHNEEDED=`grep -r KERNEL_CROSS_COMPILE | grep CROSS_COMPILE_ARM32 | grep androidkernel | wc -l`
 if [ "$PATCHNEEDED" != "0" ]
 then
@@ -75,12 +78,6 @@ rm -rf out/target/product/*/obj/PACKAGING 2>/dev/null
 rm -f out/target/product/*/*.zip*
 
 # Build the ROM
-export USE_CCACHE=1
-export CCACHE_DIR=ccache
-export ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4G"
-export LC_ALL=C
-export CPU_SSE42=false
-ccache -M 50G
 . build/envsetup.sh
-lunch lineage_nitrogen-userdebug
-time mka otapackage
+lunch aosip_nitrogen-userdebug
+time mka kronic

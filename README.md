@@ -23,4 +23,4 @@ Xiaomi Mi Max 3 was announced and released in July 2018.
 
 ## Device picture
 
-![Xiaomi Mi Max 3](https://github.com/Black-Seraph/device_xiaomi_nitrogen/raw/pie-lineage/image.jpg)
+![Xiaomi Mi Max 3](https://github.com/Black-Seraph/device_xiaomi_nitrogen/raw/pie-aosip/image.jpg)

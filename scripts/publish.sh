@@ -72,11 +72,11 @@ then
 	echo -n "$BUILD_NAME" >> updatelist.json
 	echo -n '","id":"' >> updatelist.json
 	echo -n "$BUILD_ID" >> updatelist.json
-	echo -n '","romtype":"unofficial","size":' >> updatelist.json
+	echo -n '","romtype":"pizza","size":' >> updatelist.json
 	echo -n "$BUILD_SIZE" >> updatelist.json
 	echo -n ',"url":"' >> updatelist.json
 	echo -n "$BUILD_URL" >> updatelist.json
-	echo -n '","version":"16.0"}]}' >> updatelist.json
+	echo -n '","version":"9.0"}]}' >> updatelist.json
 
 	# Add, commit & push the updated updatelist file
 	git add updatelist.json

@@ -1,14 +1,14 @@
 diff --git a/telephony/java/android/telephony/SignalStrength.java b/telephony/java/android/telephony/SignalStrength.java
-index 4e5639683a7..bb3a457e15e 100644
+index b368952c359..a7309e15c35 100644
 --- a/telephony/java/android/telephony/SignalStrength.java
 +++ b/telephony/java/android/telephony/SignalStrength.java
-@@ -897,6 +897,9 @@ public class SignalStrength implements Parcelable {
-                 + rsrpIconLevel + " snrIconLevel:" + snrIconLevel
-                 + " lteRsrpBoost:" + mLteRsrpBoost);
+@@ -900,6 +900,9 @@ public class SignalStrength implements Parcelable {
+                     + rsrpIconLevel + " snrIconLevel:" + snrIconLevel
+                     + " lteRsrpBoost:" + mLteRsrpBoost);
  
-+	/* Ignore RSSNR for now */
-+	if (rsrpIconLevel != -1) return rsrpIconLevel;
++            /* Ignore RSSNR for now */
++	    if (rsrpIconLevel != -1) return rsrpIconLevel;
 +
-         /* Choose a measurement type to use for notification */
-         if (snrIconLevel != -1 && rsrpIconLevel != -1) {
-             /*
+             /* Choose a measurement type to use for notification */
+             if (snrIconLevel != -1 && rsrpIconLevel != -1) {
+                 /*
